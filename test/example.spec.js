@@ -1,21 +1,19 @@
 const { test, expect } = require('@playwright/test');
 
-test('homepage has title and links to intro page', async ({ page }) => {
-  // Navigate to the page
-  await page.goto('https://example.com');
+test('Playwright homepage has title and links to the Get Started page', async ({ page }) => {
+  // Navigate to the Playwright homepage
+  await page.goto('https://playwright.dev');
 
   // Check the title of the page
-  await expect(page).toHaveTitle('Example Domain');
+  await expect(page).toHaveTitle(/Playwright/);
 
-  // Check for a specific text on the page
-  const heading = await page.locator('h1');
-  await expect(heading).toHaveText('Example Domain');
+  // Check for a specific text on the page (e.g., Get Started)
+  const getStartedLink = page.locator('text=Get Started');
+  await expect(getStartedLink).toBeVisible();
 
-  // Click on the link to the more information page
-  const moreInfoLink = page.locator('a');
-  await expect(moreInfoLink).toHaveText('More information...');
-  await moreInfoLink.click();
+  // Click on the "Get Started" link
+  await getStartedLink.click();
 
-  // Verify that the URL has changed
-  await expect(page).toHaveURL(/more-info/);
+  // Verify that the URL has changed to the Get Started page
+  await expect(page).toHaveURL('https://playwright.dev/docs/intro');
 });
