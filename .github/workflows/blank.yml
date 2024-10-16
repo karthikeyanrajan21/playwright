@@ -29,8 +29,8 @@ jobs:
           npx playwright install
           npx playwright install-deps
 
-      - name: Verify Playwright Installation
-        run: npx playwright show-config
+#      - name: Verify Playwright Installation
+#        run: npx playwright show-config
 
       - name: Run Playwright Tests
         run: npx playwright test
