@@ -19,13 +19,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Specify the Node.js version
+          node-version: '16' # Use your desired Node.js version
 
-      - name: Install Playwright and its dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
         run: |
-          npm install
           npx playwright install
-          sudo npx playwright install-deps
+          npx playwright install-deps
 
-      - name: Run Playwright tests
+      - name: Verify Playwright Installation
+        run: npx playwright show-config
+
+      - name: Run Playwright Tests
         run: npx playwright test
