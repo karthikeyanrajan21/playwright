@@ -1,56 +1,28 @@
-name: Playwright Tests
+name: Playwright CI
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]  # Adjust Node.js versions based on your needs
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18' # You can specify your preferred Node.js version here
 
       - name: Install dependencies
-        run: npm ci  # Installs dependencies from package-lock.json
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps  # Install necessary browsers
+        run: |
+          npm install -g npm
+          npm init -y
+          npm install playwright
 
       - name: Run Playwright tests
         run: npx playwright test
-
-      - name: Upload Playwright test results
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: playwright-results
-          path: playwright-report/
-
-      - name: Upload screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: screenshots
-          path: **/screenshots/*
-
-      - name: Upload videos on failure
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: videos
-          path: **/videos/*
