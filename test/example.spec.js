@@ -19,4 +19,3 @@ test('homepage has title and links to intro page', async ({ page }) => {
   // Verify that the URL has changed
   await expect(page).toHaveURL(/more-info/);
 });
-
